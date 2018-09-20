@@ -1,0 +1,453 @@
+{% extends 'menu/base.html' %}
+{% load staticfiles %}
+{% block titulo %}
+    Nuevos Ingredientes
+{% endblock %}
+{% block extrasHead %}
+
+    <link rel="icon" type="image/png" href="{% static 'formulario/images/icons/favicon.ico' %}  "/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'formulario/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'formulario/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/css-hamburgers/hamburgers.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/animsition/css/animsition.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href={% static 'formulario/"vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel=" stylesheet" type="text/css" href="{% static 'formulario/vendor/daterangepicker/daterangepicker.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/css/cssContact.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/css/utilContact.css' %}">
+    <!--===============================================================================================-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <style type="text/css">
+        select {
+            width: 200px;
+        }
+
+        #id_valor {
+            display: none;
+        }
+
+        .divGrande pr {
+            display: none;
+        }
+
+        .divGrande input[type="checkbox"] {
+            display: none;
+        }
+
+        .sombra {
+            border: 1px solid;
+            padding: 10px;
+            box-shadow: 5px 10px 18px #0b0b0b;
+        }
+
+        .form-group input[type="checkbox"] + .btn-group > label span {
+            width: 20px;
+        }
+
+        .form-group input[type="checkbox"] + .btn-group > label span:first-child {
+            display: none;
+        }
+
+        .form-group input[type="checkbox"] + .btn-group > label span:last-child {
+            display: inline-block;
+        }
+
+        .form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+            display: inline-block;
+        }
+
+        .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+            display: none;
+        }
+
+        label {
+            font-size: 15px;
+
+        }
+
+        .btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
+            color: #333;
+            background-color: whitesmoke;
+            border-color: #adadad;
+        }
+
+        .white, .white a {
+            color: #fff;
+        }
+
+        .glyphicon-none:before {
+            content: "\2122";
+            color: transparent !important;
+        }
+    </style>
+
+{% endblock %}
+{% block contenido %}
+
+    <div class="col-md-4">
+        <form action="" method="post">{% csrf_token %}
+
+
+            <table class="table">
+                {{ lista_prod.management_form }}
+
+                {% for form in lista_prod.forms %}
+                    {% if forloop.first %}
+                        <thead>
+                        <tr>
+                            {% for field in form.visible_fields %}
+                                <th>{{ field.label|capfirst }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                    {% endif %}
+                    <tr class="{% cycle 'row1' 'row2' %} formset_rowP">
+                        {% for field in form.visible_fields %}
+                            <td>
+                                {# Include the hidden fields in the form #}
+                                {% if forloop.first %}
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                {% endif %}
+                                {{ field.errors.as_ul }}
+                                {{ field }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+            <table class="table">
+                {{ lista_inv.management_form }}
+
+                {% for form in lista_inv.forms %}
+                    {% if forloop.first %}
+                        <thead>
+                        <tr>
+                            {% for field in form.visible_fields %}
+                                <th>{{ field.label|capfirst }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                    {% endif %}
+                    <tr class="{% cycle 'row1' 'row2' %} formset_rowI">
+                        {% for field in form.visible_fields %}
+                            <td>
+                                {# Include the hidden fields in the form #}
+                                {% if forloop.first %}
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                {% endif %}
+                                {{ field.errors.as_ul }}
+                                {{ field }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <input type="submit" value="Save"/> <a href="">back to the list</a>
+        </form>
+    </div>
+
+
+
+    <div style="">
+        <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="container-contact100 sombra">
+                <div class="wrap-contact100" style="margin-bottom: 3%">
+                    <form class="contact100-form validate-form">
+                        {{ lista_inv.management_form }}
+                        <span class="contact100-form-title">
+                             {% trans "MODIFY PRODUCT" %}
+                        </span>
+                        <script>
+                            var temp = 0;
+
+                        </script>
+<span class="forms-title">{% trans "NAME" %}</span><br>
+                        {{ form.nombre }}<br>
+
+                        <span class="forms-title">{% trans "ELEMENTS" %}</span><br>
+                        {% for elemento in lista_elementos %}
+                            {% if forloop.first %}
+                                <div class="row">{% endif %}
+                        <div class="col-xs-6">
+                            <a href="#">
+
+
+                                <div class="test">
+
+                                    <div class="btn-group divGrande">
+
+                                        {% for elemento2 in lista_elementos %}
+                                            {% if forloop.counter == forloop.parentloop.counter %}
+                                                <pr class="sumatoria">{{ elemento2.valorVenta }}</pr>
+                                            {% endif %}
+
+                                        {% empty %}
+                                        {% endfor %}
+
+                                        <label class="btn btn-default coloreo">
+                                            <span class="glyphicon glyphicon-none white"></span>
+                                        </label>
+                                        <label for="id_elementos_{{ forloop.counter0 }}"
+                                               class="[ btn btn-default active ]"
+                                               style="height: 34px;">
+                                            {{ elemento }}
+
+                                            {% for elemento2 in lista_inv.form.visible_fields.0.field.choices %}
+                                                {% if forloop.counter == forloop.parentloop.counter %}
+                                                    <script>
+                                                        if ($("#id_elementos_{{ forloop.parentloop.counter0 }}").prop('checked')) {
+                                                            temp = temp + {{ elemento2.valorVenta }};
+                                                        }
+                                                    </script>
+                                                {% endif %}
+
+                                            {% empty %}
+                                            {% endfor %}
+                                        </label>
+
+                                    </div>
+                                </div>
+                                <br>
+
+                            </a>
+                        </div>
+
+
+                        {% if forloop.counter|divisibleby:2 %}</div>
+                            <div class="row">{% endif %}
+                        {% if forloop.last %}</div>{% endif %}
+                        {% empty %}
+                            No hay elementos
+
+                        {% endfor %}
+
+                        <span class="forms-title">Productos</span><br>
+                        {% for elemento in lista_productos %}
+                            {% if forloop.first %}
+                                <div class="row">{% endif %}
+                        <div class="col-xs-6">
+                            <a href="#">
+
+
+                                <div class="test">
+
+                                    <div class="btn-group divGrande">
+
+                                        {% for elemento2 in lista_productos %}
+                                            {% if forloop.counter == forloop.parentloop.counter %}
+                                                <pr class="sumatoria">{{ elemento2.valor }}</pr>
+                                            {% endif %}
+
+                                        {% empty %}
+                                        {% endfor %}
+
+                                        <label class="btn btn-default coloreo">
+                                            <span class="glyphicon glyphicon-none white"></span>
+                                        </label>
+                                        <label for="id_elementos_{{ forloop.counter0 }}"
+                                               class="[ btn btn-default active ]"
+                                               style="height: 34px;">
+                                            {{ elemento }}
+
+                                            {% for elemento2 in lista_prod.form.visible_fields.0.field.choices %}
+                                                {% if forloop.counter == forloop.parentloop.counter %}
+                                                    <script>
+                                                        if ($("#id_elementos_{{ forloop.parentloop.counter0 }}").prop('checked')) {
+                                                            temp = temp + {{ elemento2.valorVenta }};
+                                                        }
+                                                    </script>
+                                                {% endif %}
+
+                                            {% empty %}
+                                            {% endfor %}
+                                        </label>
+
+                                    </div>
+                                </div>
+                                <br>
+
+                            </a>
+                        </div>
+
+
+                        {% if forloop.counter|divisibleby:2 %}</div>
+                            <div class="row">{% endif %}
+                        {% if forloop.last %}</div>{% endif %}
+                        {% empty %}
+                            No hay productos
+
+                        {% endfor %}
+
+
+
+                        <span class="forms-title"
+                              style="display: inline-block;">Precio Total del producto: </span>
+
+                        <precio style="display: inline-block;">
+
+                        </precio>
+                        {{ form.valor }}
+                        <br><br><br>
+                        <div style="margin-botton: 10%;">
+                            <button class="btn btn-save btn-cons">
+                                Guardar
+                            </button>
+                            <a class="fadeOut">
+                                <button type="button" class="btn btn-save btn-cons ">
+                                    Atrás
+                                </button>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="{% static 'menu/js/jquery.formset.js' %}"></script>
+
+
+    <script type="application/javascript">
+
+        $('.formset_rowP').formset({
+            addText: 'Agregar Producto',
+            deleteText: 'Quitar',
+            prefix: 'producto'
+        });
+
+        $('.formset_rowI').formset({
+            addText: 'Agregar Elemento',
+            deleteText: 'Quitar',
+            prefix: 'inventario'
+        });
+
+
+        $(document).ready(function () {
+
+                var cuadros = $('.divGrande');
+
+
+                $.each(cuadros, function () {
+
+                    if ($(this).find('input:checkbox').prop('checked')) {
+                        $(this).find('span').toggleClass('glyphicon-none glyphicon-ok');
+                    }
+                });
+
+                var lienzo = $('.coloreo');
+
+                $.each(lienzo, function () {
+                    var colors = ["#133046"];
+                    var rand = Math.floor(Math.random() * colors.length);
+                    $(this).css("background-color", colors[rand]);
+                });
+
+                lienzo = $('.coloreo2');
+
+                $.each(lienzo, function () {
+                    var colors = ["#2A4359"];
+                    var rand = Math.floor(Math.random() * colors.length);
+                    $(this).css("background-color", colors[rand]);
+                });
+
+            }
+        );
+
+        jQuery(window).load(function () {
+            $("precio").append("<label class='pf'>" + temp + "$</label>");
+            $('#id_valor').val(temp);
+
+        });
+
+        $('.divGrande').click(function () {
+            $(this).find('span').toggleClass('glyphicon-none glyphicon-ok');
+            var checkbox = $(this).find('input:checkbox');
+            checkbox.prop('checked', !checkbox.prop("checked"));
+
+            if ($(this).find('input:checkbox').prop('checked')) {
+                var number = $(this).find('.sumatoria').text().toString();
+
+                number = parseInt(number, 10)
+                temp = temp + number;
+                $('#id_valor').val(temp);
+            } else {
+                var number = $(this).find('.sumatoria').text().toString();
+                number = parseInt(number, 10)
+                temp = temp - number;
+                $('#id_valor').val(temp);
+            }
+
+
+            // Recalcular el precio
+
+            $(".pf").remove();
+            $("precio").append("<label class='pf'>" + temp + "$</label>");
+
+        });
+
+        $(document).ready(function () {
+            $('form').fadeIn(800);
+        });
+        $(".fadeOut").click(function () {
+            $("form").fadeOut(1000, function () {
+                window.location.href = "/menu/"
+            })
+        });
+    </script>
+    <script> {{ form.media.js }} </script>
+
+
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/animsition/js/animsition.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/bootstrap/js/popper.js' %}"></script>
+    <script src="{% static 'formulario/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/select2/select2.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/daterangepicker/moment.min.js' %}"></script>
+    <script src="{% static 'formulario/vendor/daterangepicker/daterangepicker.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/countdowntime/countdowntime.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/js/main.js' %}"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
+
+    </script>
+
+{% endblock %}

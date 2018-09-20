@@ -1,0 +1,126 @@
+{% extends 'menu/base.html' %}
+{% load staticfiles %}
+{% block titulo %}
+    Inventario de Ingredientes
+{% endblock %}
+
+{% block extrasHead %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/css/main.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/css/util.css' %}"/>
+
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'formulario/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/animate/animate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/select2/select2.min.css' %}">
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'formulario/vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+
+    <style>
+        .btn {
+            display: inline-block;
+            padding: 9px 12px;
+            padding-top: 7px;
+            margin: 0px 0px 10px 10px;
+            font-size: 14px;
+            line-height: 20px;
+            color: #5e5e5e;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            background-color: #d1dade;
+            -webkit-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            background-image: none !important;
+            border: none;
+            text-shadow: none;
+            box-shadow: none;
+            transition: all 0.12s linear 0s !important;
+            font: 14px/20px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .btn-cons {
+            margin-right: 5px;
+            min-width: 120px;
+            margin-bottom: 8px;
+        }
+
+        .btn-save {
+            color: #fff;
+            background-color: #008891;
+            border-color: #46b8da;
+        }
+    </style>
+
+{% endblock %}
+
+{% block contenido %}
+
+
+    <div class="table100 ver1 m-b-110">
+        <div class="table table100-head">
+            <table>
+
+
+                <th class="cell100  column4">Nombre</th>
+                <th class="cell100  column4">Unidad</th>
+                <th class="cell100  column4">Cantidad</th>
+                <th class="cell100  column4">Precio de venta</th>
+                <th class="cell100  column4"></th>
+
+            </table>
+        </div>
+        <div class="table100-body js-pscroll">
+            <table class="table">
+                <tbody>
+
+                {% for elemento in object_list %}
+
+                    <tr class="row100 body">
+                        <td class="cell100  column4">{{ elemento.nombre }}</td>
+                        <td class="cell100  column4">{{ elemento.unidadMedida }}</td>
+                        <td class="cell100  column4">{{ elemento.cantidad }} {{ elemento.unidadMedida.sigla }}</td>
+                        <td class="cell100  column4">{{ elemento.valor }} $</td>
+                        <td class="cell100  column4">
+                            <form action="{% url 'actualizarElemento' elemento.id %}">
+                                {% csrf_token %}
+                                <input action type="image"
+                                       src="{% static 'formulario/images/icons/baseline_settings_black_18dp.png' %}"/>
+                            </form>
+                            <form action="{% url 'borrarElemento' elemento.id %}">
+                                {% csrf_token %}
+                                <input type="image"
+                                       src="{% static 'formulario/images/icons/baseline_delete_black_18dp.png' %}"/>
+                            </form>
+
+                        </td>
+
+                    </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+        <a class="fadeOut">
+            <button type="button" class="btn btn-save btn-cons ">
+                Atrás
+            </button>
+        </a>
+    </div>
+ <script>
+        $(".fadeOut").click(function () {
+            $("body").fadeOut(1000, function () {
+                window.location.href = "/menu/"
+            })
+        });
+    </script>
+
+{% endblock %}

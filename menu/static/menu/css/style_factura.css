@@ -1,0 +1,30 @@
+@charset "utf-8";
+/* CSS Document */
+#principal{
+		width: 270px;
+		margin:0 auto;
+		font:12px Arial; 
+	}
+#cabecera{
+		text-align:center;
+	}
+#piedepagina{
+		text-align: center;	
+	}
+table td.crt{
+		text-align: right;
+	}
+table th {
+		border-top: solid thin #000000;
+		border-bottom: solid thin #000000;
+	}
+table {
+		width: 270px;
+	}
+table td.top{
+		border-top: solid thin #000000;
+		text-align: right;
+	}
+.tdEncierro input[type="checkbox"] {
+            display: none;
+        }

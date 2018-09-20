@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+
+    {% load staticfiles %}
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <title>Tiquete de caja</title>
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'menu/css/style_factura.css' %}">
+</head>
+<body id="principal">
+
+
+    <header id="cabecera">
+        <p>QVOTECH S.A<br/>
+            Cédula Jurídica: 3-000-000000<br/>
+            Avenida Central, San José<br/>
+            Teléfono:2222 2222</p>
+    </header>
+    <section>
+		<pre>No. Factura: {{ factura.id }}
+Fecha:{{ factura.fecha }}
+
+Cliente: {{ factura.cliente }}</pre>
+
+    </section>
+    <table>
+        <thead>
+        <tr>
+            <th>Ct</th>
+            <th>Descripción</th>
+            <th>P/Und</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+
+        {% for item in lista_items %}
+
+            {% if item.orden|stringformat:"s" == factura.id|stringformat:"s" %}
+
+                <tr>
+                    <td>&nbsp;{{ item.cantidad }}</td>
+                    <td>&nbsp;{{ item.producto.nombre }}</td>
+                    <td>&nbsp;&nbsp;{{ item.producto.valor }}</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;{% widthratio item.producto.valor 1 item.cantidad %}</td>
+                </tr>
+
+            {% endif %}
+
+        {% endfor %}
+
+
+
+
+
+        <tr>
+            <td class="top" colspan="3">SubTotal:</td>
+
+            <td class="top">
+                <precio>{{ factura.precioFinal }}</precio>
+            </td>
+
+        </tr>
+        <tr>
+            <td class="crt desc" colspan="3">Descuento:</td>
+            {% if factura.descuento == None %}
+                <td class='crt'>
+                    <descuento>0</descuento>
+                    %
+                </td>
+            {% else %}
+                <td class='crt'>
+                    <descuento>{{ factura.descuento }}</descuento>
+                    %
+                </td>
+            {% endif %}
+
+        </tr>
+
+        <tr>
+            <td class="crt" colspan="3">Impuesto de Venta:</td>
+            <td class="crt ">13%</td>
+        </tr>
+        <tr>
+            <td class="crt" colspan="3">Total:</td>
+            <td class="crt total">{% widthratio factura.descuento factura.precioFinal 113 %}</td>
+        </tr>
+        <script>
+            var precioTemp = $("precio").text().toString();
+            var descuentoTemp = $("descuento").text().toString();
+
+            var totalTemp = precioTemp - (precioTemp * (descuentoTemp / 100));
+            totalTemp = totalTemp + (precioTemp * 0.13);
+            totalTemp = totalTemp.toFixed(2);
+            $(".total").append(totalTemp);
+        </script>
+
+    </table>
+    <footer id="piedepagina">
+        <p>***Gracias Por Su Compra***</p>
+        <p>Autorizado mediante resolución #11-97 del</br>
+            12/08/1997 por la D.G.T</p>
+    </footer>
+
+</body>
+</html>

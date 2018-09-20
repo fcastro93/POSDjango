@@ -1,0 +1,444 @@
+{% extends 'menu/base.html' %}
+{% load staticfiles %}
+{% block titulo %}
+    Bienvenido!
+
+{% endblock %}
+{% block extrasHead %}
+
+
+    <!-- Vendor Styles -->
+    <link rel="stylesheet" type="text/css" href="{% static 'menu/vendor/bootstrap/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'menu/css/animate.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'menu/vendor/themify/themify.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'menu/vendor/scrollbar/scrollbar.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'menu/vendor/magnific-popup/magnific-popup.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'menu/vendor/swiper/swiper.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'menu/vendor/cubeportfolio/css/cubeportfolio.min.css' %}"/>
+
+{% endblock %}
+{% block contenido %}
+    <!-- Portfolio Filter -->
+
+    <!-- End Portfolio Filter -->
+
+
+    <!-- Portfolio Gallery -->
+    <div class="container g-margin-b-100--xs contw fadeIn">
+
+        <div id="js__grid-portfolio-gallery" class="cbp">
+            <!-- Item -->
+
+
+            <!-- PRUEBA-->
+
+            <div id="js__filters-portfolio-gallery"
+                 class="s-portfolio__filter-v1 cbp-l-filters-text cbp-l-filters-center">
+
+                <!-- MENU -->
+
+                {% if perms.menu.can_inventory %}
+                    <div class="s-portfolio__item cbp-item menu">
+                        <div data-filter=".elementos" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu">
+                            <img
+                                    {% ifequal LANGUAGE_CODE "es" %}
+                                        src="{% static "/menu/images/970x647/es/elemento-inventario.png" %}"
+                                    {% endifequal %}
+                                    {% ifequal LANGUAGE_CODE "en" %}
+                                        src="{% static "/menu/images/970x647/en/elemento-inventario.png" %}"
+                                    {% endifequal %}
+                                        alt="Portfolio Image">
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if perms.menu.can_products %}
+                    <div class="s-portfolio__item cbp-item menu">
+                        <div data-filter=".productos" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu">
+                            <img
+                                    {% ifequal LANGUAGE_CODE "es" %}
+                                        src="{% static "/menu/images/970x647/es/menu-productos.png" %}"
+                                    {% endifequal %}
+                                    {% ifequal LANGUAGE_CODE "en" %}
+                                        src="{% static "/menu/images/970x647/en/menu-productos.png" %}"
+                                    {% endifequal %}
+                                        alt="Portfolio Image">
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if perms.menu.can_orders %}
+                    <div class="s-portfolio__item cbp-item menu">
+                        <div data-filter=".orden"
+                             class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu fondoOrden">
+                            <img
+                                    {% ifequal LANGUAGE_CODE "es" %}
+                                        src="{% static "/menu/images/970x647/es/menu-ordenes.png" %}"
+                                    {% endifequal %}
+                                    {% ifequal LANGUAGE_CODE "en" %}
+                                        src="{% static "/menu/images/970x647/en/menu-ordenes.png" %}"
+                                    {% endifequal %}
+                                        alt="Portfolio Image">
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if perms.menu.can_reports %}
+                    <div class="s-portfolio__item cbp-item menu">
+                        <div data-filter=".reportes" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu">
+                            <img
+                                    {% ifequal LANGUAGE_CODE "es" %}
+                                        src="{% static "/menu/images/970x647/es/menu-reportes.png" %}"
+                                    {% endifequal %}
+                                    {% ifequal LANGUAGE_CODE "en" %}
+                                        src="{% static "/menu/images/970x647/en/menu-reportes.png" %}"
+                                    {% endifequal %}
+                                        alt="Portfolio Image">
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="s-portfolio__item cbp-item menu">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static  "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"
+                    ></div>
+                </div>
+                <div class="s-portfolio__item cbp-item menu">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"
+                    ></div>
+                </div>
+
+                <!-- Elementos -->
+
+                {% if perms.menu.can_create_element %}
+                    <div class="s-portfolio__item cbp-item elementos fadeOut">
+                        <div data-filter=".empty" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                                {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/elemento-agregar.png" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/elemento-agregar.png" %}"
+                                {% endifequal %}
+                                    alt="Portfolio Image"
+                                    onclick="window.location ='agregarElemento';"></div>
+                    </div>
+                {% endif %}
+
+                {% if perms.menu.can_mod_element %}
+
+                    <div class="s-portfolio__item cbp-item elementos fadeOut">
+                        <div data-filter=".empty" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                                {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/elemento-modificar.png" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/elemento-modificar.png" %}"
+                                {% endifequal %} alt="Portfolio Image"
+                                    onclick="window.location ='modElemento';"></div>
+                    </div>
+                {% endif %}
+
+                {% if perms.menu.can_create_unit %}
+
+                    <div class="s-portfolio__item cbp-item elementos fadeOut">
+                        <div data-filter=".empty" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                                {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/elemento-agregar-unidad.png" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/elemento-agregar-unidad.png" %}"
+                                {% endifequal %}
+                                    alt="Portfolio Image"
+                                    onclick="window.location ='agregarUnidadMedida';"></div>
+                    </div>
+                {% endif %}
+
+                {% if perms.menu.can_mod_unit %}
+
+                    <div class="s-portfolio__item cbp-item elementos fadeOut">
+                        <div data-filter=".empty" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                                {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/elemento-modificar-unidad.png" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/elemento-modificar-unidad.png" %}"
+                                {% endifequal %}
+                                    alt="Portfolio Image"
+                                    onclick="window.location ='modUnidadMedida';"></div>
+                    </div>
+                {% endif %}
+
+                <div class="s-portfolio__item cbp-item elementos">
+                    <div data-filter=".menu" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            {% ifequal LANGUAGE_CODE "es" %}
+                                src="{% static "/menu/images/970x647/es/elemento-back.png" %}"
+                            {% endifequal %}
+                            {% ifequal LANGUAGE_CODE "en" %}
+                                src="{% static "/menu/images/970x647/en/elemento-back.png" %}"
+                            {% endifequal %}
+                                alt="Portfolio Image"></div>
+                </div>
+
+                <div class="s-portfolio__item cbp-item elementos">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"></div>
+                </div>
+
+                <!-- Productos -->
+
+                {% if perms.menu.can_create_product %}
+                    <div class="s-portfolio__item cbp-item productos fadeOut">
+                        <div data-filter=".empty" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                                {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/producto-agregar.png" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/producto-agregar.png" %}"
+                                {% endifequal %}
+                                    alt="Portfolio Image"
+                                    onclick="window.location ='agregarProducto';"></div>
+                    </div>
+                {% endif %}
+
+                {% if perms.menu.can_mod_product %}
+
+                    <div class="s-portfolio__item cbp-item productos fadeOut">
+                        <div data-filter=".empty" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                                {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/producto-modificar.png" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/producto-modificar.png" %}"
+                                {% endifequal %}
+                                    alt="Portfolio Image"
+                                    onclick="window.location ='modProducto';"></div>
+                    </div>
+                {% endif %}
+
+                <div class="s-portfolio__item cbp-item productos">
+                    <div data-filter=".menu" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            {% ifequal LANGUAGE_CODE "es" %}
+                                src="{% static "/menu/images/970x647/es/producto-back.png" %}"
+                            {% endifequal %}
+                            {% ifequal LANGUAGE_CODE "en" %}
+                                src="{% static "/menu/images/970x647/en/producto-back.png" %}"
+                            {% endifequal %}
+                                alt="Portfolio Image"></div>
+                </div>
+
+                <div class="s-portfolio__item cbp-item productos">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"></div>
+                </div>
+
+                <div class="s-portfolio__item cbp-item productos">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"></div>
+                </div>
+
+                <div class="s-portfolio__item cbp-item productos">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"></div>
+                </div>
+
+                <!-- Reportes -->
+
+                <div class="s-portfolio__item cbp-item reportes">
+                    <div data-filter=".menu" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            {% ifequal LANGUAGE_CODE "es" %}
+                                src="{% static "/menu/images/970x647/es/reportes-proximamente.png" %}"
+                            {% endifequal %}
+                            {% ifequal LANGUAGE_CODE "en" %}
+                                src="{% static "/menu/images/970x647/en/reportes-proximamente.png" %}"
+                            {% endifequal %} alt="Portfolio Image">
+                    </div>
+                </div>
+
+                <div class="s-portfolio__item cbp-item reportes">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"></div>
+                </div>
+
+                <div class="s-portfolio__item cbp-item reportes">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"></div>
+                </div>
+
+                <div class="s-portfolio__item cbp-item reportes">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"></div>
+                </div>
+
+                <div class="s-portfolio__item cbp-item reportes">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"></div>
+                </div>
+
+                <div class="s-portfolio__item cbp-item reportes">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"></div>
+                </div>
+
+                <!-- Ordenes -->
+
+                {% if perms.menu.can_create_order %}
+                    <div class="s-portfolio__item cbp-item orden fadeOut">
+                        <div data-filter=".empty" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                                {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/orden-nuevas.png" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/orden-nuevas.png" %}"
+                                {% endifequal %} alt="Portfolio Image"
+                                    onclick="window.location ='agregarOrden';"></div>
+                    </div>
+                {% endif %}
+
+                {% if perms.menu.can_frozen_order %}
+                    <div class="s-portfolio__item cbp-item orden fadeOut">
+                        <div data-filter=".empty" data-filter=".logos"
+                             class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                                {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/orden-abierta.png" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/orden-abierta.png" %}"
+                                {% endifequal %}
+                                    alt="Portfolio Image"
+                                    onclick="window.location ='modOrden';"></div>
+                    </div>
+                {% endif %}
+
+                {% if perms.menu.can_invoices %}
+                    <div class="s-portfolio__item cbp-item orden fadeOut">
+                        <div data-filter=".empty" data-filter=".logos"
+                             class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                                {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/orden-facturas.png" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/orden-facturas.png" %}"
+                                {% endifequal %} alt="Portfolio Image"
+                                    onclick="window.location ='modFactura';"></div>
+                    </div>
+                {% endif %}
+
+                {% if perms.menu.can_mod_exchange %}
+                    <div class="s-portfolio__item cbp-item orden fadeOut">
+                        <div data-filter=".empty" data-filter=".logos"
+                             class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                                {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/orden-tipodecambio.png" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/orden-tipodecambio.png" %}"
+                                {% endifequal %} alt="Portfolio Image"
+                                    onclick="window.location ='tipoCambio/1';"></div>
+                    </div>
+                {% endif %}
+
+                {% if perms.menu.can_discounts %}
+                    <div class="s-portfolio__item cbp-item orden">
+                        <div data-filter=".descuento"
+                             class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu fondoOrden">
+                            <img
+                                    {% ifequal LANGUAGE_CODE "es" %}
+                                        src="{% static "/menu/images/970x647/es/descuento-menu.jpeg" %}"
+                                    {% endifequal %}
+                                    {% ifequal LANGUAGE_CODE "en" %}
+                                        src="{% static "/menu/images/970x647/en/descuento-menu.jpeg" %}"
+                                    {% endifequal %}
+                                    alt="Portfolio Image">
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="s-portfolio__item cbp-item orden">
+                    <div data-filter=".menu" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/orden-back.png" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/orden-back.png" %}"
+                                {% endifequal %} alt="Portfolio Image"></div>
+                </div>
+
+                <!-- Descuentos -->
+
+                {% if perms.menu.can_create_discount %}
+                    <div class="s-portfolio__item cbp-item descuento fadeOut">
+                        <div data-filter=".empty"
+                             class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                                {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/descuento-agregar.jpeg" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/descuento-agregar.png" %}"
+                                {% endifequal %}
+                                alt="Portfolio Image"
+                                onclick="window.location ='agregarDescuento';"></div>
+                    </div>
+                {% endif %}
+
+                {% if perms.menu.can_mod_discount %}
+                    <div class="s-portfolio__item cbp-item descuento fadeOut">
+                        <div data-filter=".empty"
+                             class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                                {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/descuento-modificar.jpeg" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/descuento-modificar.png" %}"
+                                {% endifequal %}
+                                alt="Portfolio Image"
+                                onclick="window.location ='listaDescuento';"></div>
+                    </div>
+                {% endif %}
+
+                <div class="s-portfolio__item cbp-item descuento">
+                    <div data-filter=".orden" class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            {% ifequal LANGUAGE_CODE "es" %}
+                                    src="{% static "/menu/images/970x647/es/orden-back.png" %}"
+                                {% endifequal %}
+                                {% ifequal LANGUAGE_CODE "en" %}
+                                    src="{% static "/menu/images/970x647/en/orden-back.png" %}"
+                                {% endifequal %}
+                            alt="Portfolio Image"></div>
+                </div>
+                <div class="s-portfolio__item cbp-item descuento">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"></div>
+                </div>
+                <div class="s-portfolio__item cbp-item descuento">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"></div>
+                </div>
+                <div class="s-portfolio__item cbp-item descuento">
+                    <div class="s-portfolio__filter-v1-item cbp-filter-item cuadro-menu"><img
+                            src="{% static "menu/images/970x647/space-inhabilitado.png" %}" alt="Portfolio Image"></div>
+                </div>
+
+                <!--Formulario ingredientes -->
+
+
+                <!--  FIN PRUEBA-->
+
+
+            </div>
+
+
+        </div>
+        <!-- End Portfolio Gallery -->
+
+    </div>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $(".fadeIn").fadeIn(800);
+        });
+        $(".fadeOut").click(function () {
+            $("body").fadeOut(1000, function () {
+                window.location.href = "/menu/"
+            })
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,209 @@
+{% extends 'menu/base.html' %}
+{% load staticfiles %}
+{% block titulo %}
+    Nuevos Ingredientes
+{% endblock %}
+{% block extrasHead %}
+
+    {{ form.media.css }}
+    <link rel="icon" type="image/png" href="{% static 'formulario/images/icons/favicon.ico' %}  "/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'formulario/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'formulario/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/css-hamburgers/hamburgers.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/animsition/css/animsition.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href={% static 'formulario/"vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel=" stylesheet" type="text/css" href="{% static 'formulario/vendor/daterangepicker/daterangepicker.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/css/cssContact.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/css/utilContact.css' %}">
+    <!--===============================================================================================-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <style>
+        .btn {
+            display: inline-block;
+            padding: 9px 12px;
+            padding-top: 7px;
+            margin-bottom: 0;
+            font-size: 14px;
+            line-height: 20px;
+            color: #5e5e5e;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            background-color: #d1dade;
+            -webkit-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            background-image: none !important;
+            border: none;
+            text-shadow: none;
+            box-shadow: none;
+            transition: all 0.12s linear 0s !important;
+            font: 14px/20px "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .btn-cons {
+            margin-right: 5px;
+            min-width: 120px;
+            margin-bottom: 8px;
+        }
+
+        .btn-save {
+            color: #fff;
+            background-color: #008891;
+            border-color: #46b8da;
+        }
+
+        #id_indirect_boss {
+            display: none;
+
+        }
+
+        #id_direct_boss {
+            display: none;
+
+        }
+
+        #id_creator_boss {
+            display: none;
+        }
+
+        li {
+            color: red;
+            font-size: 1em;
+        }
+
+        input {
+            background: #c2c0c0;
+            width: 100%;
+        }
+
+        select{
+            background: #c2c0c0;
+            height:34px;
+            border: none;
+            border-radius: 4px;
+            color: #1e4652;
+            font: Gill Sans MT;
+
+        }
+    </style>
+{% endblock %}
+{% block contenido %}
+    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container-contact101">
+            <div class="wrap-contact101">
+                <span class="contact100-form-title">
+                    CREAR NUEVO CAJERO
+                </span>
+            </div>
+        </div>
+        <div class="container-contact100">
+            <div class="wrap-contact100">
+                <form class="contact100-form validate-form">
+                    {% csrf_token %}
+                    <span class="forms-title">NOMBRE DE USUARIO</span><br>
+                    <div class="form-control" style="background: #c2c0c0;">
+                        {{ form.username }}
+                    </div>
+                    <br>
+
+                    <span class="forms-title">CONTRASEÑA</span><br>
+                    <div class="form-control" style="background: #c2c0c0;">
+                        {{ form.password1 }}
+                    </div>
+                    <br>
+                    <span class="forms-title">CONFIRMAR CONTRASEÑA</span><br>
+                    <div class="form-control" style="background: #c2c0c0;">
+                        {{ form.password2 }}
+                    </div>
+                    <br>
+                    <span class="forms-title">TIPO DE PERFIL</span><br>
+                    <select name="selectGrupos">
+                        {% for grupos in lista_grupos %}
+                            <option value="{{ grupos.name }}">{{ grupos.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    {{ form.direct_boss }}
+                    {{ form.indirect_boss }}
+                    {{ form.creator_boss }}
+
+
+                    {{ form.errors }}
+                    <br>
+
+
+                    <button type="submit" class="btn btn-save btn-cons ">GUARDAR</button>
+                </form>
+            </div>
+        </div>
+    </form>
+
+    <script type="application/javascript">
+
+        $(window).load(function () {
+            $('#id_direct_boss').val(1);
+            $('#id_creator_boss').val(1);
+        });
+
+        $(document).ready(function () {
+            $('form').fadeIn(800);
+        });
+        $(".fadeOut").click(function () {
+            $("form").fadeOut(1000, function () {
+                window.location.href = "/menu/"
+            })
+        });
+    </script>
+    <script>  {{ form.media.js }} </script>
+
+
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/animsition/js/animsition.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/bootstrap/js/popper.js' %}"></script>
+    <script src="{% static 'formulario/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/select2/select2.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/daterangepicker/moment.min.js' %}"></script>
+    <script src="{% static 'formulario/vendor/daterangepicker/daterangepicker.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/countdowntime/countdowntime.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/js/main.js' %}"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
+
+    </script>
+
+{% endblock %}

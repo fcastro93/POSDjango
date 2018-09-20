@@ -1,0 +1,11 @@
+/* imagen de fondo */
+body{
+    background-image: url("../images/9a9af020-39e8-416d-a4f1-7a445104b2a9.jpeg");
+    background-size: 100% 100vh;
+}
+.contw{
+    margin-top: 10%;
+}
+.cuadro-menu img:hover{
+    border: 2px solid #f2f2f2;
+}

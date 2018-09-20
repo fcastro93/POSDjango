@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+{% load staticfiles %}
+{% load i18n %}
+<!-- Begin Head -->
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block titulo %}{% endblock %}</title>
+    <meta name="keywords" content="HTML5 Theme"/>
+    <meta name="description" content="Megakit - HTML5 Theme">
+    <meta name="author" content="keenthemes.com">
+
+
+    <!-- Web Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i|Montserrat:400,700" rel="stylesheet">
+
+
+
+    {% block extrasHead %}
+    {% endblock %}
+
+
+    <style type="text/css">
+
+        body.principal {
+            background-image: url({% static 'menu/images/fondos/fondoPrincipal.jpeg' %})
+        }
+
+        body.orden {
+            background-image: url({% static 'menu/images/fondos/fondoOrdenes.jpg' %})
+        }
+
+        colorOrden {
+            cursor: pointer;
+        }
+
+    </style>
+
+
+</head>
+<!-- End Head -->
+
+<!-- Body -->
+<body class="principal">
+
+{% block contenido %}
+
+
+
+{% endblock %}
+
+<script type="text/javascript" src="{% static "menu/vendor/jquery.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/vendor/jquery.migrate.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/vendor/bootstrap/js/bootstrap.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/vendor/jquery.smooth-scroll.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/vendor/jquery.back-to-top.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/vendor/scrollbar/jquery.scrollbar.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/vendor/magnific-popup/jquery.magnific-popup.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/vendor/swiper/swiper.jquery.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/vendor/waypoint.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/vendor/counterup.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/vendor/cubeportfolio/js/jquery.cubeportfolio.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/vendor/jquery.parallax.min.js" %}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsXUGTFS09pLVdsYEE9YrO2y4IAncAO2U"></script>
+<script type="text/javascript" src="{% static "vendor/jquery.wow.min.js" %}"></script>
+
+<!-- General Components and Settings -->
+<script type="text/javascript" src="{% static "menu/js/global.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/js/components/header-sticky.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/js/components/scrollbar.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/js/components/magnific-popup.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/js/components/swiper.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/js/components/counter.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/js/components/portfolio-3-col.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/js/components/parallax.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/js/components/google-map.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/js/components/wow.min.js" %}"></script>
+<script type="text/javascript" src="{% static "menu/js/main.js" %}"></script>
+<!--========== END JAVASCRIPTS ==========-->

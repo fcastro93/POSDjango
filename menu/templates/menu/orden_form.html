@@ -1,0 +1,938 @@
+{% extends 'menu/base.html' %}
+{% load staticfiles %}
+{% load i18n %}
+{% block titulo %}
+    Nuevos Ingredientes
+{% endblock %}
+{% block extrasHead %}
+    {{ form.media.css }}
+    <link rel="icon" type="image/png" href="{% static 'formulario/images/icons/favicon.ico' %}  "/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'formulario/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'formulario/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/css-hamburgers/hamburgers.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/vendor/animsition/css/animsition.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href={% static 'formulario/"vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->
+    <link rel=" stylesheet" type="text/css" href="{% static 'formulario/vendor/daterangepicker/daterangepicker.css' %}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/css/cssContact.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'formulario/css/utilContact.css' %}">
+    <!--===============================================================================================-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <style type="text/css">
+        select {
+            background: #c2c0c0;
+            height: 34px;
+            width: 130px;
+            border: none;
+            border-radius: 4px;
+            color: #1e4652;
+            font: Gill Sans MT;
+        }
+
+        .tProdOrden {
+            display: none;
+        }
+
+        #botonGuardar {
+            display: none;
+        }
+
+        #txtTipoCambio {
+            display: none;
+        }
+
+        #id_precioFinal {
+            display: none;
+        }
+
+        .sumatoria {
+            display: none;
+        }
+
+        #id_facturado {
+            display: none;
+        }
+
+        .mult {
+            display: none;
+        }
+
+        .form-group input[type="checkbox"] + .btn-group > label span {
+            width: 20px;
+        }
+
+        .form-group input[type="checkbox"] + .btn-group > label span:first-child {
+            display: none;
+        }
+
+        .form-group input[type="checkbox"] + .btn-group > label span:last-child {
+            display: inline-block;
+        }
+
+        .form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+            display: inline-block;
+        }
+
+        .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+            display: none;
+        }
+
+        label {
+            font-size: 15px;
+
+        }
+
+        .spnCantidad {
+            width: 60%;
+        }
+
+        .spnCantidadC {
+            width: 48%;
+            padding: 6px 0px 6px 0px;
+        }
+
+        .btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
+            color: #333;
+            background-color: whitesmoke;
+            border-color: #adadad;
+        }
+
+        .white, .white a {
+            color: #fff;
+        }
+
+        .glyphicon-none:before {
+            content: "\2122";
+            color: transparent !important;
+        }
+
+        option:nth-child(1) {
+            font-weight: bold;
+        }
+    </style>
+
+{% endblock %}
+{% block contenido %}
+
+    <div style="">
+        <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+            {{ lista_prodOrden.management_form }}
+            <table class="table tProdOrden">
+
+                {% for form in lista_prodOrden.forms %}
+                    {% if forloop.first %}
+                        <thead>
+                        <tr>
+                            {% for field in form.visible_fields %}
+                                <th>{{ field.label|capfirst }}</th>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                    {% endif %}
+                    <tr class="{% cycle 'row1' 'row2' %} formset_rowP">
+                        {% for field in form.visible_fields %}
+                            <td>
+                                {# Include the hidden fields in the form #}
+                                {% if forloop.first %}
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                {% endif %}
+                                {{ field.errors.as_ul }}
+                                {{ field }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <input type="submit" id="botonGuardar" value="Save"/>
+            <div class="container-contact101">
+                <div class="wrap-contact101">
+                <span class="contact100-form-title">
+                    {% trans "ADD NEW ORDER" %}
+                </span>
+                </div>
+            </div>
+            <div class="container-contact100 sombra">
+                <div class="wrap-contact100" style="margin-bottom: 3%">
+                    <form class="contact100-form validate-form">
+                        <script>
+                            var temp = 0;
+
+                        </script>
+
+                        <script>
+                            var tempTotal = 0;
+                            var tempPersonas = 1;
+
+                        </script>
+                        <span class="forms-title"> {% trans "CLIENT NAME" %} </span><br>
+                        {{ form.cliente }}<br>
+                        <span class="forms-title">{% trans "ORDER TYPE" %}</span><br>
+                        {{ form.tipoOrden }}<br><br>
+                        <span class="forms-title">{% trans "PEOPLE PAYING" %}</span><br>
+                        {{ form.pagadores }}<br>
+                        <span class="forms-title">{% trans "CURRENCY" %}</span><br>
+                        {% for tipo in lista_tipoCambio %}
+                            <h1 id="txtTipoCambio">{{ tipo.valor }}</h1>
+                        {% endfor %}
+                        <select name="sltMoneda" id="sltMoneda">
+                            {% for moneda in lista_moneda %}
+                                <option>{{ moneda.nombre }}</option>
+                            {% endfor %}
+
+                        </select>
+                        <br>
+                        <br>
+                        <span class="forms-title">{% trans "PAY METHOD" %}</span><br>
+                        {{ form.tipoPago }}<br><br>
+                        <script>
+                            var temp = 0;
+
+                        </script>
+
+
+                        <span class="forms-title">{% trans "PRODUCTS" %}</span><br>
+                        {% for producto in lista_productosOrden %}
+
+                            {% if forloop.first %}
+                                <div class="row">{% endif %}
+                        <div class="col-xs-6">
+                            <a href="#">
+
+
+                                <div class="test">
+
+                                    <div class="btn-group divGrande">
+
+                                        {% for producto2 in lista_productosOrden %}
+                                            {% if forloop.counter == forloop.parentloop.counter %}
+                                                <pr class="sumatoria">{{ producto2.valor }}</pr>
+                                            {% endif %}
+
+                                        {% empty %}
+                                        {% endfor %}
+
+                                        <label class="btn btn-default coloreo spanNP" style="display: inline-block;
+                                                border: 0px;padding: 5px 15px 9px 15px;"
+                                               for="id_productosExtra_{{ forloop.counter0 }}">
+                                            <span class="glyphicon glyphicon-none white elegido"></span>
+                                        </label>
+                                        <div class="encierroCantidad" style="display: inline-block;"></div>
+
+                                        <label class=" btn btn-default active labelImportante"
+                                               style="display: inline-block; padding: 5px 15px 7px 15px;">{{ producto }}</label>
+
+                                    </div>
+                                </div>
+                                <br>
+
+                            </a>
+                        </div>
+
+
+                        {% if forloop.counter|divisibleby:2 %}</div>
+                            <div class="row">{% endif %}
+                        {% if forloop.last %}</div>{% endif %}
+                        {% empty %}
+                            No hay productos<br><br><br>
+
+                        {% endfor %}
+
+                        <span class="forms-title">{% trans "NOTES" %}</span><br>
+                        {{ form.notas }}<br>
+
+                        <span class="forms-title">{% trans "DISCOUNT" %}</span><br>
+                        {{ form.descuento }} %<br><br>
+                        <span class="forms-title">TOTAL</span>
+
+                        <precio>
+
+                        </precio>
+                        <br>
+                        <span class="forms-title">{% trans "TOTAL PER PERSON" %}</span>
+                        <precioPersonal>
+
+                        </precioPersonal>
+                        {{ form.precioFinal }}
+                        <br><br>
+
+                        {{ form.facturado }}
+
+                        <div style="margin-botton: 10%;">
+                            <button type="button" class="btn btn-save btn-cons btnRedir1">
+                                {% trans "FREEZE" %}
+                            </button>
+                            <button type="button" class="btn btn-save btn-cons btnRedir2">
+                                {% trans "CHECK OUT" %}
+                            </button>
+                            <a class="fadeOut">
+                                <button type="button" class="btn btn-save btn-cons ">
+                                    {% trans "BACK" %}
+                                </button>
+                            </a>
+                        </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="{% static 'menu/js/jquery.formset.js' %}"></script>
+
+
+    <script type="application/javascript">
+
+
+        var flag = false;
+        var desbug = true;
+        var contadorP = 0;
+        var tipoCambio = $("#txtTipoCambio").text().toString();
+        var tipoCambioInt = parseInt(tipoCambio);
+
+        $('#sltMoneda').change(function () {
+            if ($(this).val() == 'Colon') {
+                $('body :not(script)').contents().filter(function () {
+                    return this.nodeType === 3;
+                }).replaceWith(function () {
+                    return this.nodeValue.replace('$', '₡');
+                });
+
+                var resultadoF = parseInt($(".pf").text().toString());
+                var resultadoP = parseInt($(".pp").text().toString());
+
+
+                $(".pf").remove();
+                $(".pp").remove();
+
+                $("precio").append("<label class='pf'>" + resultadoF * tipoCambioInt + "₡</label>");
+
+                if (isNaN(parseInt(resultadoP))) {
+                    $("precioPersonal").append("<label class='pp'>0₡</label>");
+                } else {
+                    $("precioPersonal").append("<label class='pp'>" + resultadoP * tipoCambioInt + "₡</label>");
+                }
+
+            } else if ($(this).val() == 'Dolar') {
+                $('body :not(script)').contents().filter(function () {
+                    return this.nodeType === 3;
+                }).replaceWith(function () {
+                    return this.nodeValue.replace('₡', '$');
+                });
+
+                var resultadoF = parseInt($(".pf").text().toString());
+                var resultadoP = parseInt($(".pp").text().toString());
+
+                $(".pf").remove();
+                $(".pp").remove();
+
+                $("precio").append("<label class='pf'>" + resultadoF / tipoCambioInt + "$</label>");
+
+                if (isNaN(parseInt(resultadoP))) {
+                    $("precioPersonal").append("<label class='pp'>0$</label>");
+                } else {
+                    $("precioPersonal").append("<label class='pp'>" + resultadoP / tipoCambioInt + "$</label>");
+                }
+            }
+        });
+
+        $('#button').click(function () {
+            $('#select').val('2');
+        });
+
+        $('.formset_rowP').formset({
+            addText: 'Agregar Producto',
+            deleteText: 'Quitar',
+            prefix: 'cantidadesproductos_set'
+        });
+        $(".btnRedir2").click(function () {
+            $("#id_facturado").prop('checked', true);
+            if ($('#sltMoneda option:selected').text() == "Dolar") {
+                $(".pf").remove();
+                $("precio").append("<label class='pf'>" + resultadoF * tipoCambioInt + "₡</label>");
+
+            }
+            $("#botonGuardar").click();
+        });
+        $(".btnRedir1").click(function () {
+            $("#id_facturado").prop('checked', false);
+            if ($('#sltMoneda option:selected').text() == "Dolar") {
+                $(".pf").remove();
+                $("precio").append("<label class='pf'>" + resultadoF * tipoCambioInt + "₡</label>");
+
+            }
+            $("#botonGuardar").click();
+
+        });
+
+        $(document).ready(function () {
+
+                var cuadros = $('.divGrande');
+
+
+                $.each(cuadros, function () {
+
+                    if ($(this).find('input:checkbox').prop('checked')) {
+                        $(this).find('span').toggleClass('glyphicon-none glyphicon-ok');
+                    }
+                });
+
+                var lienzo = $('.coloreo');
+
+                $.each(lienzo, function () {
+                    var colors = ["#133046"];
+                    var rand = Math.floor(Math.random() * colors.length);
+                    $(this).css("background-color", colors[rand]);
+                });
+
+                lienzo = $('.coloreo2');
+
+                $.each(lienzo, function () {
+                    var colors = ["#2A4359"];
+                    var rand = Math.floor(Math.random() * colors.length);
+                    $(this).css("background-color", colors[rand]);
+                });
+
+            }
+        );
+
+        $("#id_pagadores").change(function () {
+
+
+            $(".pf").remove();
+            $(".pp").remove();
+
+            var desc = $("#id_descuento option:selected").text().toString();
+            desc = parseInt(desc, 10);
+            desc = desc / 100;
+            $(".pp").remove();
+            var flag = $("#id_pagadores").val();
+            if (flag.length === 0) {
+                alert('ADVERTENCIA:\n\nInserte cuantas personas van a pagar la orden');
+            }
+            tempPersonas = flag.toString();
+            tempPersonas = parseInt(tempPersonas, 10);
+            $(".pf").remove();
+            var multVarios = $('.mult');
+            tempTotal = 0;
+
+            $.each(multVarios, function () {
+                tempTotal = tempTotal + parseInt($(this).text().toString(), 10);
+            });
+
+            var resultado = tempTotal - (tempTotal * desc);
+
+            if ($("#sltMoneda").val() == 'Colon') {
+                $("precio").append("<label class='pf'>" + resultado + "₡</label>");
+            } else if ($("#sltMoneda").val() == 'Dolar') {
+                $("precio").append("<label class='pf'>" + resultado + "$</label>");
+            }
+
+
+            resultado = (resultado / tempPersonas);
+            resultado = resultado.toFixed(2);
+
+            if ($("#sltMoneda").val() == 'Colon') {
+                if (isNaN(parseInt(resultado))) {
+                    $("precioPersonal").append("<label class='pp'>0₡</label>");
+                } else {
+                    $("precioPersonal").append("<label class='pp'>" + resultado + "₡</label>");
+                }
+            } else if ($("#sltMoneda").val() == 'Dolar') {
+                if (isNaN(parseInt(resultado))) {
+                    $("precioPersonal").append("<label class='pp'>0$</label>");
+                } else {
+                    $("precioPersonal").append("<label class='pp'>" + resultado + "$</label>");
+                }
+            }
+
+
+            $('#id_precioFinal').val(tempTotal);
+        });
+
+        $("#id_descuento").change(function () {
+
+
+            $(".pf").remove();
+            $(".pp").remove();
+
+            var desc = $("#id_descuento option:selected").text().toString();
+            desc = parseInt(desc, 10);
+            desc = desc / 100;
+
+            var resultado = tempTotal;
+            resultado = tempTotal - (tempTotal * desc);
+
+            if ($("#sltMoneda").val() == 'Colon') {
+                $("precio").append("<label class='pf'>" + resultado + "₡</label>");
+            } else if ($("#sltMoneda").val() == 'Dolar') {
+                $("precio").append("<label class='pf'>" + resultado + "$</label>");
+            }
+            $('#id_precioFinal').val(tempTotal);
+
+
+            tempPersonas = $("#id_pagadores").val().toString();
+            tempPersonas = parseInt(tempPersonas, 10);
+
+            resultado = (resultado / tempPersonas);
+            resultado = resultado.toFixed(2);
+            if ($("#sltMoneda").val() == 'Colon') {
+                if (isNaN(parseInt(resultado))) {
+                    $("precioPersonal").append("<label class='pp'>0₡</label>");
+                } else {
+                    $("precioPersonal").append("<label class='pp'>" + resultado + "₡</label>");
+                }
+            } else if ($("#sltMoneda").val() == 'Dolar') {
+                if (isNaN(parseInt(resultado))) {
+                    $("precioPersonal").append("<label class='pp'>0$</label>");
+                } else {
+                    $("precioPersonal").append("<label class='pp'>" + resultado + "$</label>");
+                }
+            }
+
+
+        });
+
+        jQuery(window).load(function () {
+
+
+            $("precio").append("<label class='pf'>" + $("#id_valor").val() + "₡</label>");
+            $('#id_valor').val(temp);
+
+            var selects = $(".tProdOrden").find("tBody").find("tr").children().find("select");
+
+            var textos = $(".divGrande").find(".labelImportante");
+            selects.each(function (j) {
+                var inputs = $(this).parent().parent().children().find("input");
+                var numeroPrevio;
+                var opciones = $(this).find("> option:selected");
+                inputs.each(function (z) {
+                    if (z === 2) {
+                        numeroPrevio = $(this).val();
+                    }
+                });
+                var opciones = $(this).find(" > option:selected");
+                var selectTexto = opciones.text();
+                textos.each(function (i) {
+                    if ($(this).text() == selectTexto) {
+
+                        $(this).parent().find('span').toggleClass('glyphicon-none glyphicon-ok');
+
+                        $(this).closest(".divGrande").find(".encierroCantidad").append("<label class='btn spnCantidadC'" +
+                            " style='background-color: #2A4359; " +
+                            "border-radius: 0rem;'><input type='number' class='spnCantidad' value='1'" +
+                            "style='text-align: center;'></label>");
+
+                        $(this).closest(".divGrande").find(".encierroCantidad").find(".spnCantidadC").find(".spnCantidad").val(numeroPrevio);
+
+                        //asd
+                        $(this).closest('.divGrande').find(':input[type="number"]').change(function () {
+
+                            var textoAbajo = $(this).parent().parent().parent().find('.labelImportante').text();
+
+
+                            contadorP = 1;
+                            var continuar = true;
+                            do {
+                                if ($("#id_cantidadesproductos_set-" + contadorP + "-producto").length === 1) {
+                                    if ($("#id_cantidadesproductos_set-" + contadorP + "-producto").find("option:selected").text() === textoAbajo) {
+                                        continuar = false;
+                                    } else {
+                                        contadorP = contadorP + 1;
+                                    }
+                                } else {
+                                    if ($("#id_cantidadesproductos_set-0-producto").length === 1) {
+                                        if ($("#id_cantidadesproductos_set-0-producto").find("option:selected").text() === textoAbajo) {
+                                            contadorP = 0;
+                                            continuar = false;
+
+                                        }
+                                    }
+                                }
+                            } while (continuar) ;
+
+                            $(this).closest('.divGrande').find(".mult").remove();
+
+                            var number = $(this).closest('.divGrande').find('.sumatoria').text().toString();
+                            number = parseInt(number, 10);
+                            var tempCant = $(this).closest('.divGrande').find(':input[type="number"]').val();
+                            number = number * tempCant;
+                            $(this).closest('.divGrande').append("<pr class='mult'>" + number + "</pr>");
+
+                            $("#id_cantidadesproductos_set-" + contadorP + "-cantidad").val($(this)
+                                .closest('.divGrande').find("div").find('label').find('input').val());
+
+
+                            // Recalcular el precio
+
+                            var multVarios = $('.mult');
+                            var tempTotal = 0;
+
+                            $.each(multVarios, function () {
+                                tempTotal = tempTotal + parseInt($(this).text().toString(), 10);
+                            });
+                            $(".pf").remove();
+                            var resultado = tempTotal;
+                            $("precio").append("<label class='pf'>" + resultado + "₡</label>");
+                            $('#id_valor').val(tempTotal);
+                        });
+
+                    }
+                })
+
+
+            });
+
+
+            var desc = $("#id_descuento option:selected").text().toString();
+            desc = parseInt(desc, 10);
+            desc = desc / 100;
+
+            var resultado = tempTotal;
+            resultado = tempTotal - (tempTotal * desc);
+
+            $(".pf").remove();
+            if ($("#sltMoneda").val() == 'Colon') {
+                $("precio").append("<label class='pf'>" + resultado + "₡</label>");
+            } else if ($("#sltMoneda").val() == 'Dolar') {
+                $("precio").append("<label class='pf'>" + resultado + "$</label>");
+            }
+            $('#id_precioFinal').val(tempTotal);
+
+
+            tempPersonas = $("#id_pagadores").val().toString();
+            tempPersonas = parseInt(tempPersonas, 10);
+
+            resultado = (resultado / tempPersonas);
+            resultado = resultado.toFixed(2);
+            if ($("#sltMoneda").val() == 'Colon') {
+                if (isNaN(parseInt(resultado))) {
+                    $("precioPersonal").append("<label class='pp'>0₡</label>");
+                } else {
+                    $("precioPersonal").append("<label class='pp'>" + resultado + "₡</label>");
+                }
+            } else if ($("#sltMoneda").val() == 'Dolar') {
+                if (isNaN(parseInt(resultado))) {
+                    $("precioPersonal").append("<label class='pp'>0$</label>");
+                } else {
+                    $("precioPersonal").append("<label class='pp'>" + resultado + "$</label>");
+                }
+            }
+        });
+
+
+        $('.spanNP').click(function () {
+
+            $(this).parent().find('span').toggleClass('glyphicon-none glyphicon-ok');
+
+            if ($(this).parent().find('span').hasClass('glyphicon-ok')) {
+                var Y = $(document).find('.dynamic-form-add');
+
+
+                contadorP = 1;
+                var continuar = true;
+                do {
+                    if ($("#id_cantidadesproductos_set-" + contadorP + "-producto").length === 1) {
+                        if ($("#id_cantidadesproductos_set-" + contadorP + "-producto").find("option:selected").text() === "---------") {
+                            continuar = false;
+
+                        } else {
+                            contadorP = contadorP + 1;
+                        }
+                    } else {
+                        if ($("#id_cantidadesproductos_set-0-producto").length === 1) {
+                            if ($("#id_cantidadesproductos_set-0-producto").find("option:selected").text() === "---------") {
+                                contadorP = 0;
+                                continuar = false;
+                            } else {
+                                Y.each(function () {
+                                    if ($(this).find('td').find('button').text() === 'Agregar Producto') {
+
+                                        $(this).find('button').trigger('click');
+                                    }
+                                });
+
+                            }
+                        } else {
+                            Y.each(function () {
+                                if ($(this).find('td').find('button').text() === 'Agregar Producto') {
+
+                                    $(this).find('button').trigger('click');
+
+                                }
+                            });
+                            continuar = false;
+                        }
+                    }
+                } while (continuar) ;
+
+                $("#id_cantidadesproductos_set-" + contadorP + "-cantidad").val(1);
+                var valueText = $(this).parent().find('label').text();
+                $("#id_cantidadesproductos_set-" + contadorP + "-producto > option").each(function () {
+                    if (valueText.indexOf(this.text) !== -1) {
+                        $("#id_cantidadesproductos_set-" + contadorP + "-producto > option").removeAttr("selected");
+                        $(this).attr("selected", "selected");
+                    }
+                });
+                $(this).closest(".divGrande").find(".encierroCantidad").append("<label class='btn spnCantidadC'" +
+                    " style='background-color: #2A4359; " +
+                    "border-radius: 0rem;'><input type='number' class='spnCantidad' value='1'" +
+                    "style='text-align: center;'></label>");
+
+                var number = $(this).parent().find('.sumatoria').text().toString();
+
+                number = parseInt(number, 10);
+                var tempCant = $(this).closest('.divGrande').find(':input[type="number"]').val();
+                number = number * tempCant;
+                $(this).closest('.divGrande').append("<pr class='mult'>" + number + "</pr>");
+
+
+                $(this).closest('.divGrande').find(':input[type="number"]').change(function () {
+
+                    var textoAbajo = $(this).parent().parent().parent().find('.labelImportante').text();
+
+
+                    contadorP = 1;
+                    var continuar = true;
+                    do {
+                        if ($("#id_cantidadesproductos_set-" + contadorP + "-producto").length === 1) {
+                            if ($("#id_cantidadesproductos_set-" + contadorP + "-producto").find("option:selected").text() === textoAbajo) {
+                                continuar = false;
+                            } else {
+                                contadorP = contadorP + 1;
+                            }
+                        } else {
+                            if ($("#id_cantidadesproductos_set-0-producto").length === 1) {
+                                if ($("#id_cantidadesproductos_set-0-producto").find("option:selected").text() === textoAbajo) {
+                                    contadorP = 0;
+                                    continuar = false;
+
+                                }
+                            }
+                        }
+                    } while (continuar) ;
+
+                    $(this).closest('.divGrande').find(".mult").remove();
+
+                    var number = $(this).closest('.divGrande').find('.sumatoria').text().toString();
+                    number = parseInt(number, 10);
+                    var tempCant = $(this).closest('.divGrande').find(':input[type="number"]').val();
+                    number = number * tempCant;
+                    $(this).closest('.divGrande').append("<pr class='mult'>" + number + "</pr>");
+                    $("#id_cantidadesproductos_set-" + contadorP + "-cantidad").val($(this)
+                        .closest('.divGrande').find("div").find('label').find('input').val());
+
+                    $(".pf").remove();
+                    $(".pp").remove();
+
+                    var number = 0;
+                    var listaPrecios = $(document).find('.mult');
+                    listaPrecios.each(function () {
+                        var parseo = parseInt($(this).text().toString(), 10);
+                        number = number + parseo;
+                    });
+                    $('#id_precioFinal').val(number);
+
+
+                    if ($("#sltMoneda").val() == 'Colon') {
+                        $("precio").append("<label class='pf'>" + number + "₡</label>");
+                    } else if ($("#sltMoneda").val() == 'Dolar') {
+                        $("precio").append("<label class='pf'>" + number + "$</label>");
+                    }
+                    var resultado = (number / tempPersonas);
+                    resultado = resultado.toFixed(2);
+                    if ($("#sltMoneda").val() == 'Colon') {
+                        if (isNaN(parseInt(resultado))) {
+                            $("precioPersonal").append("<label class='pp'>0₡</label>");
+                        } else {
+                            $("precioPersonal").append("<label class='pp'>" + resultado + "₡</label>");
+                        }
+                    } else if ($("#sltMoneda").val() == 'Dolar') {
+                        if (isNaN(parseInt(resultado))) {
+                            $("precioPersonal").append("<label class='pp'>0$</label>");
+                        } else {
+                            $("precioPersonal").append("<label class='pp'>" + resultado + "$</label>");
+                        }
+                    }
+
+                });
+
+
+            } else {
+                //nuevo
+
+                $(this).closest(".divGrande").find(".encierroCantidad").find(".spnCantidadC").remove();
+                $(this).closest('.divGrande').find(".mult").remove();
+                valueText = $(this).parent().find('label').text();
+                var temporal = $(document).find('.tProdOrden').find('tbody').children().children().find('select option:selected');
+                var bandera = 0;
+                temporal.each(function () {
+                    if (valueText.indexOf($(this).text()) !== -1) {
+
+                        var listaInterna = temporal.parent().parent().parent().children().find('button');
+                        listaInterna.each(function (i) {
+                            if (i === bandera) {
+                                $(this).click();
+                            }
+                        })
+
+                    }
+                    bandera = bandera + 1;
+                });
+                $(".pf").remove();
+                $(".pp").remove();
+
+                var number = 0;
+                var listaPrecios = $(document).find('.mult');
+                listaPrecios.each(function () {
+                    var parseo = parseInt($(this).text().toString(), 10);
+                    number = number + parseo;
+                });
+                $('#id_precioFinal').val(number);
+
+
+                if ($("#sltMoneda").val() == 'Colon') {
+                    $("precio").append("<label class='pf'>" + number + "₡</label>");
+                } else if ($("#sltMoneda").val() == 'Dolar') {
+                    $("precio").append("<label class='pf'>" + number + "$</label>");
+                }
+                var resultado = (number / tempPersonas);
+                resultado = resultado.toFixed(2);
+                if ($("#sltMoneda").val() == 'Colon') {
+                    if (isNaN(parseInt(resultado))) {
+                        $("precioPersonal").append("<label class='pp'>0₡</label>");
+                    } else {
+                        $("precioPersonal").append("<label class='pp'>" + resultado + "₡</label>");
+                    }
+                } else if ($("#sltMoneda").val() == 'Dolar') {
+                    if (isNaN(parseInt(resultado))) {
+                        $("precioPersonal").append("<label class='pp'>0$</label>");
+                    } else {
+                        $("precioPersonal").append("<label class='pp'>" + resultado + "$</label>");
+                    }
+                }
+
+                if (contadori !== 1) contadori = contadori - 1;
+
+                flag = true;
+
+            }
+            contadorP = 1;
+            // Recalcular el precio
+            var desc = $("#id_descuento option:selected").text().toString();
+            desc = parseInt(desc, 10);
+            desc = desc / 100;
+            $(".pp").remove();
+            var flag = $("#id_pagadores").val();
+            if (flag.length === 0) {
+                alert('ADVERTENCIA:\n\nInserte cuantas personas van a pagar la orden');
+            }
+            tempPersonas = flag.toString();
+            tempPersonas = parseInt(tempPersonas, 10);
+            $(".pf").remove();
+            var multVarios = $('.mult');
+            tempTotal = 0;
+
+            $.each(multVarios, function () {
+                tempTotal = tempTotal + parseInt($(this).text().toString(), 10);
+            });
+
+
+            var number = 0;
+            var listaPrecios = $(document).find('.mult');
+            listaPrecios.each(function () {
+                var parseo = parseInt($(this).text().toString(), 10);
+                number = number + parseo;
+            });
+            $('#id_precioFinal').val(number);
+
+
+            if ($("#sltMoneda").val() == 'Colon') {
+                $("precio").append("<label class='pf'>" + number + "₡</label>");
+            } else if ($("#sltMoneda").val() == 'Dolar') {
+                $("precio").append("<label class='pf'>" + number + "$</label>");
+            }
+            var resultado = (number / tempPersonas);
+            resultado = resultado.toFixed(2);
+            if ($("#sltMoneda").val() == 'Colon') {
+                if (isNaN(parseInt(resultado))) {
+                    $("precioPersonal").append("<label class='pp'>0₡</label>");
+                } else {
+                    $("precioPersonal").append("<label class='pp'>" + resultado + "₡</label>");
+                }
+            } else if ($("#sltMoneda").val() == 'Dolar') {
+                if (isNaN(parseInt(resultado))) {
+                    $("precioPersonal").append("<label class='pp'>0$</label>");
+                } else {
+                    $("precioPersonal").append("<label class='pp'>" + resultado + "$</label>");
+                }
+            }
+
+
+        });
+
+
+        $(document).ready(function () {
+            $('form').fadeIn(800);
+        });
+        $(".fadeOut").click(function () {
+            $("form").fadeOut(1000, function () {
+                window.location.href = "/menu/"
+            })
+        });
+    </script>
+    -->
+    <script>  {{ form.media.js }} </script>
+
+
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/animsition/js/animsition.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/bootstrap/js/popper.js' %}"></script>
+    <script src="{% static 'formulario/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/select2/select2.min.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/daterangepicker/moment.min.js' %}"></script>
+    <script src="{% static 'formulario/vendor/daterangepicker/daterangepicker.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/vendor/countdowntime/countdowntime.js' %}"></script>
+    <!--===============================================================================================-->
+    <script src="{% static 'formulario/js/main.js' %}"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
+
+    </script>
+
+{% endblock %}
